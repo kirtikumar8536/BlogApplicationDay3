@@ -2,13 +2,16 @@ package com.blog.controller;
 
 import com.blog.payload.PostDto;
 import com.blog.service.PostService;
-import jakarta.validation.Valid;
+import  javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -34,7 +37,7 @@ public class PostController {
         postService.createPost(postDto);
         return new ResponseEntity<>("post is created", HttpStatus.CREATED);//201
     }*/
-
+    @PreAuthorize("hasRole('ADMIN')")//only admin can create post-- if we using this annotation then we have to enable @EnableGlobalMethodSecurity in securityConfig.java
     @PostMapping//if we want to show/send any dto response to postman
     public ResponseEntity<Object> createPost(@Valid @RequestBody PostDto postDto, BindingResult bindingResult) {
         //? or ResponseEntity<Object> bcz object is super most class of java
@@ -44,7 +47,7 @@ public class PostController {
         PostDto dto = postService.createPost(postDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);//201 //postdto type
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
@@ -62,6 +65,7 @@ public class PostController {
         return new ResponseEntity<>(postDto, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//only admin can update post
     @PutMapping//http://localhost:8080/api/posts?postId=1
     public ResponseEntity<PostDto> updatePost(
             @RequestParam(name="postId") Long postId,

@@ -1,9 +1,12 @@
 package com.blog.entity;
 
-import jakarta.persistence.*;
+import  javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data // Lombok annotation to generate getters, setters, toString, equals, and hashCode methods
 @AllArgsConstructor // Lombok annotation to generate an all-args constructor
@@ -20,6 +23,8 @@ public class Post {
     private String description;
     private String content;
 
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Comment> comments=new ArrayList<>();
 
 }
 

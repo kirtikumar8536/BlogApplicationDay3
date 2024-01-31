@@ -73,11 +73,13 @@ public class PostserviceImpl implements PostService {
     @Override
     public void deletePost(Long id) {
         //using java 8 feature
+
         Post post = postRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Post Not Found With Id:" + id)
         );
         System.out.println("printing Post data in service impl: " + post);
         //Post(id=6, title=Coding Adventures, Description=Discovering Java 8, content=Embark on a journey.)
+       //Post(id=16, title=Python for Beginners, description=Learn Python from Scratch, content=Start your programming journey with Python and build a solid foundation., comments=[])
         postRepo.deleteById(id);
     }
 
@@ -150,3 +152,4 @@ public class PostserviceImpl implements PostService {
 
 
 }
+//all crud operation performed and spring validation is done+exception handling is done
